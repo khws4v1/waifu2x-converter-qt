@@ -46,7 +46,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="91"/>
-        <source>Image processing mode</source>
+        <source>Image processing mode:</source>
+        <oldsource>Image processing mode</oldsource>
         <translation>画像処理モード:</translation>
     </message>
     <message>
