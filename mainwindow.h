@@ -28,7 +28,7 @@ private:
     void save();
 
     Ui::MainWindow *ui;
-    waifu2xConverterQtSettings* m_settings;
+    Waifu2xConverterQtSettings* m_settings;
 };
 
 #endif // MAINWINDOW_H

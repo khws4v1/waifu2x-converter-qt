@@ -10,7 +10,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    m_settings(new waifu2xConverterQtSettings)
+    m_settings(new Waifu2xConverterQtSettings)
 {
     ui->setupUi(this);
     init();

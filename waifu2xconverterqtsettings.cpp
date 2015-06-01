@@ -2,7 +2,7 @@
 
 #include <QApplication>
 
-waifu2xConverterQtSettings::waifu2xConverterQtSettings(QObject *parent)
+Waifu2xConverterQtSettings::Waifu2xConverterQtSettings(QObject *parent)
     : QSettings(QSettings::IniFormat,
                 QSettings::UserScope,
                 QApplication::organizationName(),
@@ -11,4 +11,3 @@ waifu2xConverterQtSettings::waifu2xConverterQtSettings(QObject *parent)
 {
 
 }
-

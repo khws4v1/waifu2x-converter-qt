@@ -12,7 +12,7 @@ ProcessDialog::ProcessDialog(const QString& inputFileName,
                              QWidget *parent)
     : QDialog(parent),
     ui(new Ui::ProcessDialog),
-    m_settings(new waifu2xConverterQtSettings(this)),
+    m_settings(new Waifu2xConverterQtSettings(this)),
     m_process(new QProcess(this)),
     m_inputFileName(inputFileName),
     m_threads(threads),

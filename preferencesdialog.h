@@ -24,7 +24,7 @@ private:
     void init();
 
     Ui::PreferencesDialog *ui;
-    waifu2xConverterQtSettings* m_settings;
+    Waifu2xConverterQtSettings* m_settings;
 };
 
 #endif // PREFERENCESDIALOG_H

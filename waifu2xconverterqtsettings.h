@@ -2,11 +2,18 @@
 #define WAIFU2XCONVERTERQTSETTINGS_H
 
 #include <QSettings>
+#include <QApplication>
+#include <QDir>
 
-class waifu2xConverterQtSettings : public QSettings
+class Waifu2xConverterQtSettings : public QSettings
 {
 public:
-    waifu2xConverterQtSettings(QObject* parent = nullptr);
+    Waifu2xConverterQtSettings(QObject* parent = nullptr);
+
+    inline void restoreDefault()
+    {
+        for (const QString& key : allKeys()) remove(key);
+    }
 
     void setWaifu2xConverterCppLocation(const QString& location)
     {
@@ -14,7 +21,8 @@ public:
     }
     QString waifu2xConverterCppLocation() const
     {
-        return value("Waifu2xConverterCppLocation").toString();
+        return value("Waifu2xConverterCppLocation",
+                     QDir(QApplication::applicationDirPath()).absoluteFilePath("waifu2x-converter-cpp")).toString();
     }
 
     void setThreadsCount(int count)

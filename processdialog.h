@@ -31,7 +31,7 @@ private:
     void init();
 
     Ui::ProcessDialog* ui;
-    waifu2xConverterQtSettings* m_settings;
+    Waifu2xConverterQtSettings* m_settings;
     QProcess* m_process;
     QString m_inputFileName;
     int m_threads;

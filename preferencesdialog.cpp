@@ -6,7 +6,7 @@
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PreferencesDialog),
-    m_settings(new waifu2xConverterQtSettings(this))
+    m_settings(new Waifu2xConverterQtSettings(this))
 {
     ui->setupUi(this);
     init();
