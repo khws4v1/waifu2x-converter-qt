@@ -154,9 +154,24 @@
         <translation>ファイル名を自分で指定して保存する。</translation>
     </message>
     <message>
-        <location filename="preferencesdialog.cpp" line="28"/>
+        <location filename="preferencesdialog.ui" line="66"/>
+        <source>Restore</source>
+        <translation>戻す</translation>
+    </message>
+    <message>
+        <location filename="preferencesdialog.ui" line="72"/>
+        <source>Clear all settings and restore defaults.</source>
+        <translation>標準設定に戻す。</translation>
+    </message>
+    <message>
+        <location filename="preferencesdialog.cpp" line="29"/>
         <source>Select waifu2x-converter-cpp location</source>
         <translation>waifu2x-converterの場所</translation>
+    </message>
+    <message>
+        <location filename="preferencesdialog.cpp" line="44"/>
+        <source>Done.</source>
+        <translation>終わりました。</translation>
     </message>
 </context>
 <context>

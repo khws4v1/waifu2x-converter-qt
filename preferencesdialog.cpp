@@ -2,6 +2,7 @@
 #include "ui_preferencesdialog.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 
 PreferencesDialog::PreferencesDialog(QWidget *parent) :
     QDialog(parent),
@@ -34,12 +35,27 @@ void PreferencesDialog::browseWaifu2xConverterCpp()
         ui->locationLine->setText(dialog.selectedFiles().first());
 }
 
+void PreferencesDialog::restoreDefaults()
+{
+    m_settings->restoreDefaults();
+    loadSettings();
+    QMessageBox::information(this,
+                             "",
+                             tr("Done."),
+                             QMessageBox::Ok);
+}
+
 void PreferencesDialog::init()
 {
-    //load
-    ui->locationLine->setText(m_settings->waifu2xConverterCppLocation());
-    ui->outputFilenameCheck->setChecked(m_settings->isUseCustomFileName());
-
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(ui->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseWaifu2xConverterCpp()));
+    connect(ui->restoreButton, SIGNAL(clicked(bool)), this, SLOT(restoreDefaults()));
+
+    loadSettings();
+}
+
+void PreferencesDialog::loadSettings()
+{
+    ui->locationLine->setText(m_settings->waifu2xConverterCppLocation());
+    ui->outputFilenameCheck->setChecked(m_settings->isUseCustomFileName());
 }

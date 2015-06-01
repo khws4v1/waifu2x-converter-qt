@@ -19,9 +19,11 @@ public:
 private slots:
     void saveSettings();
     void browseWaifu2xConverterCpp();
+    void restoreDefaults();
 
 private:
     void init();
+    void loadSettings();
 
     Ui::PreferencesDialog *ui;
     Waifu2xConverterQtSettings* m_settings;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>517</width>
-    <height>222</height>
+    <width>561</width>
+    <height>299</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,6 +54,22 @@
        <widget class="QCheckBox" name="outputFilenameCheck">
         <property name="text">
          <string>Use custom output filename.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Restore</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QPushButton" name="restoreButton">
+        <property name="text">
+         <string>Clear all settings and restore defaults.</string>
         </property>
        </widget>
       </item>
