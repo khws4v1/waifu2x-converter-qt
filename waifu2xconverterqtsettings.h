@@ -10,7 +10,7 @@ class Waifu2xConverterQtSettings : public QSettings
 public:
     Waifu2xConverterQtSettings(QObject* parent = nullptr);
 
-    inline void restoreDefault()
+    inline void restoreDefaults()
     {
         for (const QString& key : allKeys()) remove(key);
     }
