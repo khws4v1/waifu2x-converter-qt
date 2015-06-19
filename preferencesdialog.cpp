@@ -20,19 +20,30 @@ PreferencesDialog::~PreferencesDialog()
 
 void PreferencesDialog::saveSettings()
 {
-    m_settings->setWaifu2xConverterCppLocation(ui->locationLine->text());
+    m_settings->setWaifu2xConverterCppCommand(ui->waifu2xCommandLine->text());
+    m_settings->setModelDirectory(ui->modelDirectoryLine->text());
     m_settings->setUseCustomFileName(ui->outputFilenameCheck->isChecked());
 }
 
 void PreferencesDialog::browseWaifu2xConverterCpp()
 {
-    QFileDialog dialog(this, tr("Select waifu2x-converter-cpp location"));
+    QFileDialog dialog(this, tr("Select waifu2x-converter"));
 
-    dialog.selectFile("waifu2x-converter-cpp");
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
 
     if (dialog.exec() == QFileDialog::Accepted)
-        ui->locationLine->setText(dialog.selectedFiles().first());
+        ui->waifu2xCommandLine->setText(dialog.selectedFiles().first());
+}
+
+void PreferencesDialog::browseModelDirectory()
+{
+    QFileDialog dialog(this, tr("Select model directory"));
+
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    dialog.setFileMode(QFileDialog::DirectoryOnly);
+
+    if (dialog.exec() == QFileDialog::Accepted)
+        ui->modelDirectoryLine->setText(dialog.selectedFiles().first());
 }
 
 void PreferencesDialog::restoreDefaults()
@@ -49,6 +60,7 @@ void PreferencesDialog::init()
 {
     connect(this, SIGNAL(accepted()), this, SLOT(saveSettings()));
     connect(ui->browseButton, SIGNAL(clicked(bool)), this, SLOT(browseWaifu2xConverterCpp()));
+    connect(ui->browseModelDirectoryButton, SIGNAL(clicked(bool)), this, SLOT(browseModelDirectory()));
     connect(ui->restoreButton, SIGNAL(clicked(bool)), this, SLOT(restoreDefaults()));
 
     loadSettings();
@@ -56,6 +68,7 @@ void PreferencesDialog::init()
 
 void PreferencesDialog::loadSettings()
 {
-    ui->locationLine->setText(m_settings->waifu2xConverterCppLocation());
+    ui->waifu2xCommandLine->setText(m_settings->waifu2xConverterCppCommand());
+    ui->modelDirectoryLine->setText(m_settings->modelDirectory());
     ui->outputFilenameCheck->setChecked(m_settings->isUseCustomFileName());
 }

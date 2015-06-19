@@ -15,14 +15,13 @@ public:
         for (const QString& key : allKeys()) remove(key);
     }
 
-    void setWaifu2xConverterCppLocation(const QString& location)
+    void setWaifu2xConverterCppCommand(const QString& command)
     {
-        setValue("Waifu2xConverterCppLocation", location);
+        setValue("Waifu2xConverterCppCommand", command);
     }
-    QString waifu2xConverterCppLocation() const
+    QString waifu2xConverterCppCommand() const
     {
-        return value("Waifu2xConverterCppLocation",
-                     QDir(QApplication::applicationDirPath()).absoluteFilePath("waifu2x-converter-cpp")).toString();
+        return value("Waifu2xConverterCppCommandn").toString();
     }
 
     void setThreadsCount(int count)
@@ -68,6 +67,15 @@ public:
     bool isUseCustomFileName() const
     {
         return value("UseCustomFileName").toBool();
+    }
+
+    void setModelDirectory(const QString& dir)
+    {
+        setValue("ModelDirectory", dir);
+    }
+    QString modelDirectory() const
+    {
+        return value("ModelDirectory").toString();
     }
 };
 

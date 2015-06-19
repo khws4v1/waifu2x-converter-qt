@@ -53,7 +53,7 @@ void ProcessDialog::appendConsoleText(QString text)
 
 void ProcessDialog::init()
 {
-    QDir dir(m_settings->waifu2xConverterCppLocation());
+    QDir dir(m_settings->waifu2xConverterCppCommand());
     QStringList args;
 
     dir.cdUp();
@@ -67,8 +67,9 @@ void ProcessDialog::init()
     args << "-i" << m_inputFileName;
     if (!m_outputFileName.isEmpty())
         args << QString("-o %1").arg(m_outputFileName);
-    m_process->setWorkingDirectory(dir.absolutePath());
-    m_process->start(m_settings->waifu2xConverterCppLocation(), args);
+    if (dir.exists())
+        m_process->setWorkingDirectory(dir.absolutePath());
+    m_process->start(m_settings->waifu2xConverterCppCommand(), args);
 
     ui->iconLabel->setPixmap(style()->standardPixmap(QStyle::SP_FileIcon));
 

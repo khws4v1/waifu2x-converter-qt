@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>561</width>
-    <height>299</height>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,17 +23,47 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Select waifu2x-converter-cpp location.</string>
+         <string>waifu2x-converter-cpp command:</string>
         </property>
        </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="locationLine"/>
+         <widget class="QLineEdit" name="waifu2xCommandLine"/>
         </item>
         <item>
          <widget class="QPushButton" name="browseButton">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string>Model</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Model directory:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLineEdit" name="modelDirectoryLine"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="browseModelDirectoryButton">
           <property name="text">
            <string>Browse</string>
           </property>
