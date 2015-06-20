@@ -21,7 +21,7 @@ public:
     }
     QString waifu2xConverterCppCommand() const
     {
-        return value("Waifu2xConverterCppCommandn").toString();
+        return value("Waifu2xConverterCppCommand").toString();
     }
 
     void setThreadsCount(int count)
