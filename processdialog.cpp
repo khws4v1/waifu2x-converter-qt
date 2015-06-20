@@ -36,7 +36,7 @@ ProcessDialog::~ProcessDialog()
 
 void ProcessDialog::onProcessFinished()
 {
-    if (ui->consoleText->toPlainText().contains("process successfully done!"))
+    if (m_process->exitStatus() == QProcess::NormalExit)
         ui->textLabel->setText(tr("Success!"));
     else
         ui->textLabel->setText(tr("An error occurred while converting image."));
@@ -58,13 +58,13 @@ void ProcessDialog::init()
 
     dir.cdUp();
 
-    args << QString("-j %1").arg(m_threads);
+    args << "-j" << QString::number(m_threads);
     if (m_imageProcessingMode.contains("scale"))
-        args << QString("--scale_ratio %1").arg(m_scaleRatio);
+        args << "--scale_ratio" << QString::number(m_scaleRatio);
     if (m_imageProcessingMode.contains("noise"))
-        args << QString("--noise_level %1").arg(m_noiseReductionLevel);
-    args << QString("-m %1").arg(m_imageProcessingMode);
-    args << QString("-i %1").arg(m_inputFileName);
+        args << "--noise_level" << QString::number(m_noiseReductionLevel);
+    args << "-m" << m_imageProcessingMode;
+    args << "-i" << m_inputFileName;
     if (!m_outputFileName.isEmpty())
         args << QString("-o %1").arg(m_outputFileName);
     m_process->setWorkingDirectory(dir.absolutePath());
