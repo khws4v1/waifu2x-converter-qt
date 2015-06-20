@@ -9,6 +9,7 @@ ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int noiseReductionLevel,
                              const QString& imageProcessingMode,
                              const QString& outputFileName,
+                             const QString &modelDirectory,
                              QWidget *parent)
     : QDialog(parent),
     ui(new Ui::ProcessDialog),
@@ -19,7 +20,8 @@ ProcessDialog::ProcessDialog(const QString& inputFileName,
     m_scaleRatio(scaleRatio),
     m_noiseReductionLevel(noiseReductionLevel),
     m_imageProcessingMode(imageProcessingMode),
-    m_outputFileName(outputFileName)
+    m_outputFileName(outputFileName),
+    m_modelDirectory(modelDirectory)
 {
     ui->setupUi(this);
     init();
@@ -67,6 +69,8 @@ void ProcessDialog::init()
     args << "-i" << m_inputFileName;
     if (!m_outputFileName.isEmpty())
         args << QString("-o %1").arg(m_outputFileName);
+    if (!m_modelDirectory.isEmpty())
+        args << "--model_dir" << m_modelDirectory;
     if (dir.exists())
         m_process->setWorkingDirectory(dir.absolutePath());
     m_process->start(m_settings->waifu2xConverterCppCommand(), args);
