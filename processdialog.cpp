@@ -3,6 +3,10 @@
 #include <QDir>
 #include <QtDebug>
 
+#ifdef Q_OS_LINUX
+#include "libnotifyhandler.h"
+#endif
+
 ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int threads,
                              double scaleRatio,
@@ -36,13 +40,28 @@ ProcessDialog::~ProcessDialog()
 
 void ProcessDialog::onProcessFinished()
 {
-    if (m_process->exitStatus() == QProcess::NormalExit)
+    if (m_process->exitStatus() == QProcess::NormalExit) {
         ui->textLabel->setText(tr("Success!"));
-    else
+
+#ifdef Q_OS_LINUX
+    sendNotify(tr("Success!").toUtf8().constData(),
+               tr("Image conversion was successful.").toUtf8().constData(),
+               "image-x-generic");
+#endif
+    } else {
         ui->textLabel->setText(tr("An error occurred while converting image."));
+
+#ifdef Q_OS_LINUX
+        sendNotify(tr("Error!").toUtf8().constData(),
+                   tr("An error occurred while converting image.").toUtf8().constData(),
+                   "dialog-error");
+#endif
+    }
     ui->progressBar->setMaximum(100);
     ui->progressBar->setValue(100);
     ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+
 }
 
 void ProcessDialog::appendConsoleText(QString text)
