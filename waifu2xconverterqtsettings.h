@@ -8,6 +8,21 @@
 class Waifu2xConverterQtSettings : public QSettings
 {
 public:
+    struct Argment {
+        QString argmentString;
+        QString argmentValue = "";
+        bool isIgnore = false;
+    };
+    struct ArgmentSettings {
+        Argment jobs;
+        Argment modelDirectory;
+        Argment scaleRatio;
+        Argment noiseLevel;
+        Argment mode;
+        Argment outputFile;
+        Argment inputFile;
+    };
+
     Waifu2xConverterQtSettings(QObject* parent = nullptr);
 
     inline void restoreDefaults()
@@ -77,6 +92,22 @@ public:
     {
         return value("ModelDirectory").toString();
     }
+
+    void setArgmentSettings(const ArgmentSettings& settings)
+    {
+        setValue("ArgmentSettings", QVariant::fromValue(settings));
+    }
+    ArgmentSettings argmentSettings() const
+    {
+        return contains("ArgmentSettings")
+                ? value("ArgmentSettings").value<ArgmentSettings>()
+                : defaultArgmentSettings();
+    }
+
+private:
+    static ArgmentSettings defaultArgmentSettings();
 };
+
+Q_DECLARE_METATYPE(Waifu2xConverterQtSettings::ArgmentSettings)
 
 #endif // WAIFU2XCONVERTERQTSETTINGS_H
