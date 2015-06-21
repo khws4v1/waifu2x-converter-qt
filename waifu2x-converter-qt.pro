@@ -14,6 +14,7 @@ CONFIG += c++11
 TRANSLATIONS = waifu2x-converter-qt_ja.ts
 
 linux: include(linux/linux.pri)
+macx: include(macx/macx.pri)
 
 SOURCES += main.cpp\
         mainwindow.cpp \
