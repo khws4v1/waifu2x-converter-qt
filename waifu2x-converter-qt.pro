@@ -35,7 +35,3 @@ FORMS    += mainwindow.ui \
     processdialog.ui \
     preferencesdialog.ui \
     aboutdialog.ui
-
-DISTFILES += \
-    linux/linux.pri
-
