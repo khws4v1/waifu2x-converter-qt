@@ -28,6 +28,7 @@ private slots:
     void appendConsoleText(QString text);
 
 private:
+    void sendResultNotification(bool isSuccessed);
     void init();
 
     Ui::ProcessDialog* ui;

@@ -3,6 +3,13 @@
 #include <QDir>
 #include <QtDebug>
 
+#ifdef Q_OS_LINUX
+#include "libnotifyhandler.h"
+#endif
+#ifdef Q_OS_MAC
+#include "usernotificationwrapper.h"
+#endif
+
 ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int threads,
                              double scaleRatio,
@@ -36,19 +43,56 @@ ProcessDialog::~ProcessDialog()
 
 void ProcessDialog::onProcessFinished()
 {
-    if (m_process->exitStatus() == QProcess::NormalExit)
+    if (m_process->exitStatus() == QProcess::NormalExit) {
         ui->textLabel->setText(tr("Success!"));
-    else
+        sendResultNotification(true);
+    } else {
         ui->textLabel->setText(tr("An error occurred while converting image."));
+        sendResultNotification(false);
+    }
     ui->progressBar->setMaximum(100);
     ui->progressBar->setValue(100);
     ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
+
+
 }
 
 void ProcessDialog::appendConsoleText(QString text)
 {
     if (text.endsWith("\n")) text.chop(1);
     ui->consoleText->appendPlainText(text);
+}
+
+void ProcessDialog::sendResultNotification(bool isSuccessed)
+{
+    QString title;
+    QString text;
+
+    if (isSuccessed) {
+        title = tr("Success!");
+        text = tr("Image conversion was successful.");
+
+#ifdef Q_OS_LINUX
+    sendNotify(title.toUtf8().constData(),
+               text.toUtf8().constData(),
+               "image-x-generic");
+#endif
+#ifdef Q_OS_MAC
+    UserNotificationWrapper::sendNotification(title, text);
+#endif
+    } else {
+        title = tr("Error!");
+        text = tr("An error occurred while converting image.");
+
+#ifdef Q_OS_LINUX
+        sendNotify(title.toUtf8().constData(),
+                   text.toUtf8().constData(),
+                   "dialog-error");
+#endif
+#ifdef Q_OS_MAC
+        UserNotificationWrapper::sendNotification(title, text);
+#endif
+    }
 }
 
 void ProcessDialog::init()

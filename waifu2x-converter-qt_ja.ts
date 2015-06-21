@@ -182,14 +182,26 @@
         <translation>画像を処理しています…</translation>
     </message>
     <message>
-        <location filename="processdialog.cpp" line="40"/>
+        <location filename="processdialog.cpp" line="47"/>
+        <location filename="processdialog.cpp" line="72"/>
         <source>Success!</source>
         <translation>成功しました！</translation>
     </message>
     <message>
-        <location filename="processdialog.cpp" line="42"/>
+        <location filename="processdialog.cpp" line="50"/>
+        <location filename="processdialog.cpp" line="85"/>
         <source>An error occurred while converting image.</source>
         <translation>画像変換中にエラーが発生しました。</translation>
+    </message>
+    <message>
+        <location filename="processdialog.cpp" line="73"/>
+        <source>Image conversion was successful.</source>
+        <translation>画像変換に成功しました</translation>
+    </message>
+    <message>
+        <location filename="processdialog.cpp" line="84"/>
+        <source>Error!</source>
+        <translation>エラー</translation>
     </message>
 </context>
 </TS>
