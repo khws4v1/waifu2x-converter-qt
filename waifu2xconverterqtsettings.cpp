@@ -1,6 +1,7 @@
 #include "waifu2xconverterqtsettings.h"
-
 #include <QApplication>
+
+using namespace Waifu2xConverterQt;
 
 Waifu2xConverterQtSettings::Waifu2xConverterQtSettings(QObject *parent)
     : QSettings(QSettings::IniFormat,
@@ -12,17 +13,16 @@ Waifu2xConverterQtSettings::Waifu2xConverterQtSettings(QObject *parent)
 
 }
 
-Waifu2xConverterQtSettings::ArgmentSettings Waifu2xConverterQtSettings::defaultArgmentSettings()
+QString Waifu2xConverterQtSettings::defaultOptionString(const Option opt)
 {
-    ArgmentSettings s;
-
-    s.jobs.argmentString = "-j";
-    s.modelDirectory.argmentString = "--model_dir";
-    s.scaleRatio.argmentString = "--scale_ratio";
-    s.noiseLevel.argmentString = "--noise_level";
-    s.mode.argmentString = "-m";
-    s.outputFile.argmentString = "-o";
-    s.inputFile.argmentString = "-i";
-
-    return s;
+    switch (opt) {
+    case Jobs:       return "-j";
+    case ModelDir:   return "--model_dir";
+    case ScaleRatio: return "--scale_ratio";
+    case NoiseLevel: return "--noise_level";
+    case Mode:       return "-m";
+    case OutputFile: return "-o";
+    case InputFile:  return "-i";
+    default: return QString();
+    }
 }

@@ -1,6 +1,7 @@
 #ifndef WAIFU2XCONVERTERQTSETTINGS_H
 #define WAIFU2XCONVERTERQTSETTINGS_H
 
+#include "waifu2xconvertercppoptions.h"
 #include <QSettings>
 #include <QApplication>
 #include <QDir>
@@ -8,21 +9,6 @@
 class Waifu2xConverterQtSettings : public QSettings
 {
 public:
-    struct Argment {
-        QString argmentString;
-        QString argmentValue = "";
-        bool isIgnore = false;
-    };
-    struct ArgmentSettings {
-        Argment jobs;
-        Argment modelDirectory;
-        Argment scaleRatio;
-        Argment noiseLevel;
-        Argment mode;
-        Argment outputFile;
-        Argment inputFile;
-    };
-
     Waifu2xConverterQtSettings(QObject* parent = nullptr);
 
     inline void restoreDefaults()
@@ -30,84 +16,99 @@ public:
         for (const QString& key : allKeys()) remove(key);
     }
 
-    void setWaifu2xConverterCppCommand(const QString& command)
+    inline void setWaifu2xConverterCppCommand(const QString& command)
     {
         setValue("Waifu2xConverterCppCommand", command);
     }
-    QString waifu2xConverterCppCommand() const
+    inline QString waifu2xConverterCppCommand() const
     {
         return value("Waifu2xConverterCppCommand").toString();
     }
 
-    void setThreadsCount(int count)
+    inline void setThreadsCount(int count)
     {
         setValue("ThreadsCount", count);
     }
-    int threadsCount() const
+    inline int threadsCount() const
     {
         return value("ThreadsCount", 4).toInt();
     }
 
-    void setScaleRatio(double ratio)
+    inline void setScaleRatio(double ratio)
     {
         setValue("ScaleRatio", ratio);
     }
-    double scaleRatio() const
+    inline double scaleRatio() const
     {
         return value("ScaleRatio", 2.0).toDouble();
     }
 
-    void setNoiseReductionLevel(int level)
+    inline void setNoiseReductionLevel(int level)
     {
         setValue("NoiseReductionLevel", level);
     }
-    int noiseReductionLevel() const
+    inline int noiseReductionLevel() const
     {
         return value("NoiseReductionLavel", 1).toInt();
     }
 
-    void setImageProcessingMode(const QString& mode)
+    inline void setImageProcessingMode(const QString& mode)
     {
         setValue("ImageProcessingMode", mode);
     }
-    QString imageProcessingMode() const
+    inline QString imageProcessingMode() const
     {
         return value("ImageProcessingMode", "noise_scale").toString();
     }
 
-    void setUseCustomFileName(bool on)
+    inline void setUseCustomFileName(bool on)
     {
         setValue("UseCustomFileName", on);
     }
-    bool isUseCustomFileName() const
+    inline bool isUseCustomFileName() const
     {
         return value("UseCustomFileName").toBool();
     }
 
-    void setModelDirectory(const QString& dir)
+    inline void setModelDirectory(const QString& dir)
     {
         setValue("ModelDirectory", dir);
     }
-    QString modelDirectory() const
+    inline QString modelDirectory() const
     {
         return value("ModelDirectory").toString();
     }
 
-    void setArgmentSettings(const ArgmentSettings& settings)
+    inline void setOptionIgnored(const Waifu2xConverterQt::Option opt, const bool isIgnore)
     {
-        setValue("ArgmentSettings", QVariant::fromValue(settings));
+        setValue(QString("Ignore%1").arg(Waifu2xConverterQt::optionToString(opt)), isIgnore);
     }
-    ArgmentSettings argmentSettings() const
+    inline bool isOptionIgnored(const Waifu2xConverterQt::Option opt) const
     {
-        return contains("ArgmentSettings")
-                ? value("ArgmentSettings").value<ArgmentSettings>()
-                : defaultArgmentSettings();
+        return value(QString("Ignore%1").arg(Waifu2xConverterQt::optionToString(opt)), false).toBool();
     }
 
-private:
-    static ArgmentSettings defaultArgmentSettings();
+    inline void setOptionString(const Waifu2xConverterQt::Option opt, const QString& string)
+    {
+        setValue(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt)), string);
+    }
+    inline QString optionString(const Waifu2xConverterQt::Option opt) const
+    {
+        return value(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt))).toString().isEmpty()
+                ? defaultOptionString(opt)
+                : value(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt))).toString();
+    }
+
+    inline void setOptionArgument(const Waifu2xConverterQt::Option opt, const QString& arg)
+    {
+        setValue(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), arg);
+    }
+    inline QString optionAtgument(const Waifu2xConverterQt::Option opt)
+    {
+        return value(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), "").toString();
+    }
+
+    static QString defaultOptionString(const Waifu2xConverterQt::Option opt);
 };
-
-Q_DECLARE_METATYPE(Waifu2xConverterQtSettings::ArgmentSettings)
 
 #endif // WAIFU2XCONVERTERQTSETTINGS_H
