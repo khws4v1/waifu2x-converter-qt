@@ -41,7 +41,7 @@ void PreferencesDialog::saveSettings()
 
 void PreferencesDialog::browseWaifu2xConverterCpp()
 {
-    QFileDialog dialog(this, tr("Select waifu2x-converter"));
+    QFileDialog dialog(this, tr("Select waifu2x-converter-cpp"));
 
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
 
