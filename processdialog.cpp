@@ -1,5 +1,6 @@
 #include "processdialog.h"
 #include "ui_processdialog.h"
+#include "waifu2xconvertercppoptions.h"
 #include <QDir>
 #include <QtDebug>
 
@@ -9,6 +10,7 @@
 #ifdef Q_OS_MAC
 #include "usernotificationwrapper.h"
 #endif
+using namespace Waifu2xConverterQt;
 
 ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int threads,
@@ -16,6 +18,7 @@ ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int noiseReductionLevel,
                              const QString& imageProcessingMode,
                              const QString& outputFileName,
+                             const QString &modelDirectory,
                              QWidget *parent)
     : QDialog(parent),
     ui(new Ui::ProcessDialog),
@@ -26,7 +29,8 @@ ProcessDialog::ProcessDialog(const QString& inputFileName,
     m_scaleRatio(scaleRatio),
     m_noiseReductionLevel(noiseReductionLevel),
     m_imageProcessingMode(imageProcessingMode),
-    m_outputFileName(outputFileName)
+    m_outputFileName(outputFileName),
+    m_modelDirectory(modelDirectory)
 {
     ui->setupUi(this);
     init();
@@ -43,7 +47,8 @@ ProcessDialog::~ProcessDialog()
 
 void ProcessDialog::onProcessFinished()
 {
-    if (m_process->exitStatus() == QProcess::NormalExit) {
+    if (m_process->exitStatus() == QProcess::NormalExit
+            && m_process->exitCode() == 0) {
         ui->textLabel->setText(tr("Success!"));
         sendResultNotification(true);
     } else {
@@ -53,8 +58,6 @@ void ProcessDialog::onProcessFinished()
     ui->progressBar->setMaximum(100);
     ui->progressBar->setValue(100);
     ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
-
-
 }
 
 void ProcessDialog::appendConsoleText(QString text)
@@ -97,22 +100,60 @@ void ProcessDialog::sendResultNotification(bool isSuccessed)
 
 void ProcessDialog::init()
 {
-    QDir dir(m_settings->waifu2xConverterCppLocation());
+    QDir dir(m_settings->waifu2xConverterCppCommand());
     QStringList args;
 
     dir.cdUp();
 
-    args << "-j" << QString::number(m_threads);
-    if (m_imageProcessingMode.contains("scale"))
-        args << "--scale_ratio" << QString::number(m_scaleRatio);
-    if (m_imageProcessingMode.contains("noise"))
-        args << "--noise_level" << QString::number(m_noiseReductionLevel);
-    args << "-m" << m_imageProcessingMode;
-    args << "-i" << m_inputFileName;
-    if (!m_outputFileName.isEmpty())
-        args << QString("-o %1").arg(m_outputFileName);
-    m_process->setWorkingDirectory(dir.absolutePath());
-    m_process->start(m_settings->waifu2xConverterCppLocation(), args);
+    if (!m_settings->isOptionIgnored(Jobs))
+        args << m_settings->optionString(Jobs)
+             << (m_settings->optionArgument(Jobs).isEmpty()
+                 ? QString::number(m_threads)
+                 : m_settings->optionArgument(Jobs));
+
+    if (!m_settings->isOptionIgnored(ScaleRatio))
+        args << m_settings->optionString(ScaleRatio)
+             << (m_settings->optionArgument(ScaleRatio).isEmpty()
+                 ? QString::number(m_scaleRatio)
+                 : m_settings->optionArgument(ScaleRatio));
+
+    if (!m_settings->isOptionIgnored(NoiseLevel))
+        args << m_settings->optionString(NoiseLevel)
+             << (m_settings->optionArgument(NoiseLevel).isEmpty()
+                 ? QString::number(m_noiseReductionLevel)
+                 : m_settings->optionArgument(NoiseLevel));
+
+    if (!m_settings->isOptionIgnored(Mode))
+        args << m_settings->optionString(Mode)
+             << (m_settings->optionArgument(Mode).isEmpty()
+                 ? m_imageProcessingMode
+                 : m_settings->optionArgument(Mode));
+
+    if (!m_settings->isOptionIgnored(InputFile))
+        args << m_settings->optionString(InputFile)
+             << (m_settings->optionArgument(InputFile).isEmpty()
+                 ? m_inputFileName
+                 : m_settings->optionArgument(InputFile));
+
+    if (!m_settings->isOptionIgnored(OutputFile)
+            && !m_outputFileName.isEmpty()
+            && !m_settings->optionArgument(OutputFile).isEmpty())
+        args << m_settings->optionString(OutputFile)
+             << (m_settings->optionArgument(OutputFile).isEmpty()
+                 ? m_outputFileName
+                 : m_settings->optionArgument(OutputFile));
+
+    if (!m_settings->isOptionIgnored(ModelDir)
+            && !m_modelDirectory.isEmpty()
+            && !m_settings->optionArgument(ModelDir).isEmpty())
+        args << m_settings->optionString(ModelDir)
+             << (m_settings->optionArgument(ModelDir).isEmpty()
+                 ? m_modelDirectory
+                 : m_settings->optionArgument(ModelDir));
+
+    if (dir.exists())
+        m_process->setWorkingDirectory(dir.absolutePath());
+    m_process->start(m_settings->waifu2xConverterCppCommand(), args);
 
     ui->iconLabel->setPixmap(style()->standardPixmap(QStyle::SP_FileIcon));
 

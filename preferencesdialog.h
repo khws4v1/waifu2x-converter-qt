@@ -19,6 +19,7 @@ public:
 private slots:
     void saveSettings();
     void browseWaifu2xConverterCpp();
+    void browseModelDirectory();
     void restoreDefaults();
 
 private:

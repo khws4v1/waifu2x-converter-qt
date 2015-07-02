@@ -48,7 +48,8 @@ void MainWindow::processImage(const QString &imageFileName)
                          ui->scaleRatioBox->value(),
                          ui->noiseReductionLevel->value(),
                          ui->imageProcessingModeBox->currentText(),
-                         outputFileName);
+                         outputFileName,
+                         m_settings->modelDirectory());
     dialog.exec();
 }
 

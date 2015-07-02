@@ -20,6 +20,7 @@ public:
                            int noiseReductionLevel,
                            const QString& imageProcessingMode,
                            const QString& outputFileName,
+                           const QString& modelDirectory,
                            QWidget *parent = nullptr);
     ~ProcessDialog();
 
@@ -40,6 +41,7 @@ private:
     int m_noiseReductionLevel;
     QString m_imageProcessingMode;
     QString m_outputFileName;
+    QString m_modelDirectory;
 };
 
 #endif // PROCESSDIALOG_H

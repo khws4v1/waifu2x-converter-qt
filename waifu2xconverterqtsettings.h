@@ -1,6 +1,7 @@
 #ifndef WAIFU2XCONVERTERQTSETTINGS_H
 #define WAIFU2XCONVERTERQTSETTINGS_H
 
+#include "waifu2xconvertercppoptions.h"
 #include <QSettings>
 #include <QApplication>
 #include <QDir>
@@ -15,60 +16,99 @@ public:
         for (const QString& key : allKeys()) remove(key);
     }
 
-    void setWaifu2xConverterCppLocation(const QString& location)
+    inline void setWaifu2xConverterCppCommand(const QString& command)
     {
-        setValue("Waifu2xConverterCppLocation", location);
+        setValue("Waifu2xConverterCppCommand", command);
     }
-    QString waifu2xConverterCppLocation() const
+    inline QString waifu2xConverterCppCommand() const
     {
-        return value("Waifu2xConverterCppLocation",
-                     QDir(QApplication::applicationDirPath()).absoluteFilePath("waifu2x-converter-cpp")).toString();
+        return value("Waifu2xConverterCppCommand").toString();
     }
 
-    void setThreadsCount(int count)
+    inline void setThreadsCount(int count)
     {
         setValue("ThreadsCount", count);
     }
-    int threadsCount() const
+    inline int threadsCount() const
     {
         return value("ThreadsCount", 4).toInt();
     }
 
-    void setScaleRatio(double ratio)
+    inline void setScaleRatio(double ratio)
     {
         setValue("ScaleRatio", ratio);
     }
-    double scaleRatio() const
+    inline double scaleRatio() const
     {
         return value("ScaleRatio", 2.0).toDouble();
     }
 
-    void setNoiseReductionLevel(int level)
+    inline void setNoiseReductionLevel(int level)
     {
         setValue("NoiseReductionLevel", level);
     }
-    int noiseReductionLevel() const
+    inline int noiseReductionLevel() const
     {
         return value("NoiseReductionLavel", 1).toInt();
     }
 
-    void setImageProcessingMode(const QString& mode)
+    inline void setImageProcessingMode(const QString& mode)
     {
         setValue("ImageProcessingMode", mode);
     }
-    QString imageProcessingMode() const
+    inline QString imageProcessingMode() const
     {
         return value("ImageProcessingMode", "noise_scale").toString();
     }
 
-    void setUseCustomFileName(bool on)
+    inline void setUseCustomFileName(bool on)
     {
         setValue("UseCustomFileName", on);
     }
-    bool isUseCustomFileName() const
+    inline bool isUseCustomFileName() const
     {
         return value("UseCustomFileName").toBool();
     }
+
+    inline void setModelDirectory(const QString& dir)
+    {
+        setValue("ModelDirectory", dir);
+    }
+    inline QString modelDirectory() const
+    {
+        return value("ModelDirectory").toString();
+    }
+
+    inline void setOptionIgnored(const Waifu2xConverterQt::Option opt, const bool isIgnore)
+    {
+        setValue(QString("Ignore%1").arg(Waifu2xConverterQt::optionToString(opt)), isIgnore);
+    }
+    inline bool isOptionIgnored(const Waifu2xConverterQt::Option opt) const
+    {
+        return value(QString("Ignore%1").arg(Waifu2xConverterQt::optionToString(opt)), false).toBool();
+    }
+
+    inline void setOptionString(const Waifu2xConverterQt::Option opt, const QString& string)
+    {
+        setValue(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt)), string);
+    }
+    inline QString optionString(const Waifu2xConverterQt::Option opt) const
+    {
+        return value(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt))).toString().isEmpty()
+                ? defaultOptionString(opt)
+                : value(QString("%1String").arg(Waifu2xConverterQt::optionToString(opt))).toString();
+    }
+
+    inline void setOptionArgument(const Waifu2xConverterQt::Option opt, const QString& arg)
+    {
+        setValue(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), arg);
+    }
+    inline QString optionArgument(const Waifu2xConverterQt::Option opt)
+    {
+        return value(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), "").toString();
+    }
+
+    static QString defaultOptionString(const Waifu2xConverterQt::Option opt);
 };
 
 #endif // WAIFU2XCONVERTERQTSETTINGS_H
