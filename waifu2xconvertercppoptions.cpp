@@ -12,7 +12,7 @@ QString optionToString(const Option opt)
     case Mode:       return "Mode";
     case OutputFile: return "OutputFile";
     case InputFile:  return "InputFile";
-    default: return QString();
+    default:         return QString();
     }
 }
 

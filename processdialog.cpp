@@ -1,7 +1,10 @@
 #include "processdialog.h"
 #include "ui_processdialog.h"
+#include "waifu2xconvertercppoptions.h"
 #include <QDir>
 #include <QtDebug>
+
+using namespace Waifu2xConverterQt;
 
 ProcessDialog::ProcessDialog(const QString& inputFileName,
                              int threads,
@@ -60,17 +63,52 @@ void ProcessDialog::init()
 
     dir.cdUp();
 
-    args << "-j" << QString::number(m_threads);
-    if (m_imageProcessingMode.contains("scale"))
-        args << "--scale_ratio" << QString::number(m_scaleRatio);
-    if (m_imageProcessingMode.contains("noise"))
-        args << "--noise_level" << QString::number(m_noiseReductionLevel);
-    args << "-m" << m_imageProcessingMode;
-    args << "-i" << m_inputFileName;
-    if (!m_outputFileName.isEmpty())
-        args << QString("-o %1").arg(m_outputFileName);
-    if (!m_modelDirectory.isEmpty())
-        args << "--model_dir" << m_modelDirectory;
+    if (!m_settings->isOptionIgnored(Jobs))
+        args << m_settings->optionString(Jobs)
+             << (m_settings->optionArgument(Jobs).isEmpty()
+                 ? QString::number(m_threads)
+                 : m_settings->optionArgument(Jobs));
+
+    if (!m_settings->isOptionIgnored(ScaleRatio))
+        args << m_settings->optionString(ScaleRatio)
+             << (m_settings->optionArgument(ScaleRatio).isEmpty()
+                 ? QString::number(m_scaleRatio)
+                 : m_settings->optionArgument(ScaleRatio));
+
+    if (!m_settings->isOptionIgnored(NoiseLevel))
+        args << m_settings->optionString(NoiseLevel)
+             << (m_settings->optionArgument(NoiseLevel).isEmpty()
+                 ? QString::number(m_noiseReductionLevel)
+                 : m_settings->optionArgument(NoiseLevel));
+
+    if (!m_settings->isOptionIgnored(Mode))
+        args << m_settings->optionString(Mode)
+             << (m_settings->optionArgument(Mode).isEmpty()
+                 ? m_imageProcessingMode
+                 : m_settings->optionArgument(Mode));
+
+    if (!m_settings->isOptionIgnored(InputFile))
+        args << m_settings->optionString(InputFile)
+             << (m_settings->optionArgument(InputFile).isEmpty()
+                 ? m_inputFileName
+                 : m_settings->optionArgument(InputFile));
+
+    if (!m_settings->isOptionIgnored(OutputFile)
+            && !m_outputFileName.isEmpty()
+            && !m_settings->optionArgument(OutputFile).isEmpty())
+        args << m_settings->optionString(OutputFile)
+             << (m_settings->optionArgument(OutputFile).isEmpty()
+                 ? m_outputFileName
+                 : m_settings->optionArgument(OutputFile));
+
+    if (!m_settings->isOptionIgnored(ModelDir)
+            && !m_modelDirectory.isEmpty()
+            && !m_settings->optionArgument(ModelDir).isEmpty())
+        args << m_settings->optionString(ModelDir)
+             << (m_settings->optionArgument(ModelDir).isEmpty()
+                 ? m_modelDirectory
+                 : m_settings->optionArgument(ModelDir));
+
     if (dir.exists())
         m_process->setWorkingDirectory(dir.absolutePath());
     m_process->start(m_settings->waifu2xConverterCppCommand(), args);

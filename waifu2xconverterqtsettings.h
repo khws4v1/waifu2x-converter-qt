@@ -103,7 +103,7 @@ public:
     {
         setValue(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), arg);
     }
-    inline QString optionAtgument(const Waifu2xConverterQt::Option opt)
+    inline QString optionArgument(const Waifu2xConverterQt::Option opt)
     {
         return value(QString("%1Argument").arg(Waifu2xConverterQt::optionToString(opt)), "").toString();
     }

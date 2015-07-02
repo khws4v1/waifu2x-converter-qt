@@ -96,7 +96,7 @@ void PreferencesDialog::loadSettings()
         if (form) {
             form->setIgnoreBoxChecked(m_settings->isOptionIgnored(opt));
             form->setOptionStringLineText(m_settings->optionString(opt));
-            form->setOptionArgumentLineText(m_settings->optionAtgument(opt));
+            form->setOptionArgumentLineText(m_settings->optionArgument(opt));
         }
     }
 }
