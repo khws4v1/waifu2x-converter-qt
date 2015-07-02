@@ -77,8 +77,10 @@ void PreferencesDialog::init()
     connect(ui->browseModelDirectoryButton, SIGNAL(clicked(bool)), this, SLOT(browseModelDirectory()));
     connect(ui->restoreButton, SIGNAL(clicked(bool)), this, SLOT(restoreDefaults()));
 
-    for (const auto& opt : optionList())
+    for (const auto& opt : optionList()) {
+        ui->optionBox->addItem(optionToString(opt));
         ui->optionWidget->addWidget(new OptionPreferencesForm(opt, this));
+    }
 
     loadSettings();
 }

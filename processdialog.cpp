@@ -41,7 +41,8 @@ ProcessDialog::~ProcessDialog()
 
 void ProcessDialog::onProcessFinished()
 {
-    if (m_process->exitStatus() == QProcess::NormalExit)
+    if (m_process->exitStatus() == QProcess::NormalExit
+            && m_process->exitCode() == 0)
         ui->textLabel->setText(tr("Success!"));
     else
         ui->textLabel->setText(tr("An error occurred while converting image."));

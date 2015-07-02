@@ -139,33 +139,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="optionBox">
-           <item>
-            <property name="text">
-             <string>Jobs</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ModelDir</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ScaleRatio</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>NoiseLevel</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ScaleRatio</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QComboBox" name="optionBox"/>
          </item>
         </layout>
        </item>
