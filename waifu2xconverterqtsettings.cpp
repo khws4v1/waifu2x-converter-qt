@@ -23,6 +23,6 @@ QString Waifu2xConverterQtSettings::defaultOptionString(const Option opt)
     case Mode:       return "-m";
     case OutputFile: return "-o";
     case InputFile:  return "-i";
-    default: return QString();
+    default:         return QString();
     }
 }
