@@ -8,12 +8,14 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     if (QLocale::system().language() == QLocale::Japanese) {
-        auto* translator = new QTranslator();
+        auto* qtTranslator = new QTranslator(&a);
+        auto* waifu2xConverterQtTranslator = new QTranslator(&a);
 
-        translator->load("waifu2x-converter-qt_ja",
-                         a.applicationDirPath());
-        translator->load("qt_ja", a.applicationDirPath());
-        a.installTranslator(translator);
+        qtTranslator->load("qt_ja", a.applicationDirPath());
+        waifu2xConverterQtTranslator->load("waifu2x-converter-qt_ja",
+                                           a.applicationDirPath());
+        a.installTranslator(qtTranslator);
+        a.installTranslator(waifu2xConverterQtTranslator);
     }
 
 
